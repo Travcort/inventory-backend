@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 # Ignore node_modules folder
+=======
+.env
+>>>>>>> 9345cd242daceefcd5dc3f16c82acbe52130ad81
 node_modules/
