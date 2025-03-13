@@ -7,9 +7,9 @@ const router = express.Router();
 router.get('/products', async (req,res) => {
     try {
         const allProducts = await Product.find({});
-        if(!allProducts) return res.status(404).json({ success: true, message: 'The Inventory is empty!', products: [] });
+        if(!allProducts) return res.status(404).json({ success: false, message: 'The Inventory is empty!' });
 
-        return res.status(200).json({ products: allProducts });
+        return res.status(200).json({ success: true, products: allProducts });
     } 
     catch (error) {
         console.error(error);
@@ -123,4 +123,4 @@ router.patch('/products/:id/stock', async (req,res) => {
     }
 });
 
-export { router };
+export { router as productRoutes };
