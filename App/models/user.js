@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import Joi from 'joi';
+const mongoose = require('mongoose');
+const Joi = require('joi')
 
-export const User = mongoose.model('User',
+const User = mongoose.model('User',
   new mongoose.Schema({
     name:{type: String,required: true,minlength: 5,maxlength: 50},
     email:{type: String,required: true,unique: true,minlength: 5,maxlength: 255},
@@ -9,7 +9,7 @@ export const User = mongoose.model('User',
   })
 )
 
-export function validateUser(user) {
+function validateUser(user) {
   const schema = Joi.object({
     name: Joi.string().min(3).required(),
     email: Joi.string().min(5).max(255).required().email(),
@@ -17,3 +17,7 @@ export function validateUser(user) {
   });
   return schema.validate(user);
 }
+
+exports.User = User;
+
+exports.validate = validateUser;

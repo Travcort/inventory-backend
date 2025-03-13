@@ -1,6 +1,4 @@
 import express from 'express';
-const app = express();
-app.use(express.json());
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -18,14 +16,11 @@ mongoose.connect(dbUrl)
 .then(() => console.log('Successfully Connected to the Database'))
 .catch((error) => console.error('Failed Database Connection', error.message));
 
-// Authentication
-import { userRoutes } from './Auth/routes/users.js';
-app.use('/api/users', userRoutes);
-
-// Products
-import { productRoutes } from './Products/product.routes.js';
-app.use('/api', productRoutes);
+const app = express();
+app.use(express.json());
+import { router } from './product.routes.js';
+app.use('/api', router);
 
 app.listen(PORT, () => {
-    console.log(`Server started on http://localhost:${PORT}`);
+    console.log(`Server started on http://localhost:${PORT}`)
 })
