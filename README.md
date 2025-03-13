@@ -21,7 +21,11 @@
 
 3. **Create the `.env` File**
    - In the base directory, create a `.env` file.
-   - Copy and paste the required environment variables (found in project documentation or from the maintainer).
+   - Copy and paste the required environment variables:
+    ```bash
+    PORT=5000
+    MONGO_LOCAL = mongodb://localhost:27017/inventory
+    MONGO_URL =  // To be implemented in Production
 
 ---
 
