@@ -33,13 +33,21 @@
 
 ```mermaid
 flowchart TB
-    root --> index.js
-    root --> package.json
-    root --> package-lock.json
-    root --> product.controller.js
-    root --> product.schema.js
-    root --> .env
-    root --> .gitignore
-    root --> README.md
-    root --> requests.rest
+    root --> index.js[📄index.js]
+    root --> package.json[📄package.json]
+    root --> package-lock.json[📄package-lock.json]
+    root --> .env[📄.env]
+    root --> .gitignore[📄.gitignore]
+    root --> README.md[📄README.md]
+    root --> Products[📁Products]
+    Products --> product.routes.js[📄product.routes.js]
+    Products --> product.schema.js[📄product.schema.js]
+    Products --> requests.rest[📄requests.rest]
+    root --> Auth[📁Auth]
+    Auth --> models[📁 models]
+    models --> user.js[📄 user.js]
+    Auth --> routes[📁 routes]
+    routes --> auth.js[📄 auth.js]
+    routes --> users.js[📄 users.js]
+    Auth --> requests.rest[📄requests.rest]
     root --> node_modules[📁 node_modules]
