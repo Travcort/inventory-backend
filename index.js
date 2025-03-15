@@ -6,14 +6,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 const jwtPrivateKey = process.env.JWT_PRIVATE_KEY;
 
-console.log("JWT Secret Key:", process.env.JWT_PRIVATE_KEY);
-
 if(!jwtPrivateKey){
     console.error('FATAL ERROR: JWT Private Key is not defined.');
     process.exit(1);
- 
 }
-
 
 const { PORT, NODE_ENV, MONGO_URL, MONGO_LOCAL } = process.env;
 const dbUrl = NODE_ENV === 'development' ? MONGO_LOCAL : MONGO_URL;
@@ -22,8 +18,6 @@ if(!dbUrl) {
     console.error('Please set the Connection String');
     process.exit(1);
 }
-
-
 
 // Database Connection
 mongoose.connect(dbUrl)
@@ -44,4 +38,4 @@ app.use('/api', productRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server started on http://localhost:${PORT}`);
-})
+});

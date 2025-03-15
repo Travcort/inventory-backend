@@ -1,5 +1,5 @@
 export function admin(req, res, next) {
-  if(!req.user.isAdmin) return res.status(403).send('Access Denied');
+  if(!req.user.isAdmin) return res.status(403).send({ success: false, message: 'Access Denied' });
   next();
 };
 
