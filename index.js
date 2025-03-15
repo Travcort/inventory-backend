@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const jwtPrivateKey = process.env.JWT_PRIVATE_KEY;
 
+console.log("JWT Secret Key:", process.env.JWT_PRIVATE_KEY);
 
 if(!jwtPrivateKey){
     console.error('FATAL ERROR: JWT Private Key is not defined.');
