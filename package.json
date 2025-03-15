@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Travcort/inventory-backend#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "config": "^3.3.12",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "joi": "^17.13.3",
