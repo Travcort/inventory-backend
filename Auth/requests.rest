@@ -2,7 +2,37 @@ POST http://localhost:5000/api/users/register
 Content-Type: application/json
 
 {
-    "name": "Rando",
-    "email": "trials@tmail.com",
-    "password": "mikeTesting"
+    "name": "Admin One",
+    "email": "admin@tmail.com",
+    "password": "adminTesting",
+    "isAdmin": true
+}
+
+###
+POST http://localhost:5000/api/users/register
+Content-Type: application/json
+
+{
+    "name": "Rando One",
+    "email": "boring@tmail.com",
+    "password": "dudeTesting",
+    "isAdmin": false
+}
+
+###
+POST http://localhost:5000/api/auth
+Content-Type: application/json
+
+{
+    "email": "admin@tmail.com",
+    "password": "adminTesting"
+}
+
+###
+POST http://localhost:5000/api/auth
+Content-Type: application/json
+
+{
+    "email": "boring@tmail.com",
+    "password": "dudeTesting"
 }

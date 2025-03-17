@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose'
 import { Product } from "./product.schema.js";
+import { auth } from '../middleware/auth.js';
+import { admin } from '../middleware/admin.js';
 
 const router = express.Router();
 
@@ -17,7 +19,7 @@ router.get('/products', async (req,res) => {
     }
 });
 
-router.delete('/products/:id', async (req,res) => {
+router.delete('/products/:id', auth, admin, async (req,res) => {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -38,7 +40,7 @@ router.delete('/products/:id', async (req,res) => {
 
 })
 
-router.post('/products', async (req,res) => {
+router.post('/products', auth, admin, async (req,res) => {
     const { name, description, image, stock } = req.body;
 
     if(!name || !description || !image || !stock) {
@@ -64,7 +66,7 @@ router.post('/products', async (req,res) => {
     }
 });
 
-router.put('/products/:id', async (req,res) => {
+router.put('/products/:id', auth, admin, async (req,res) => {
     const id = req.params.id;
     const { name, description, image, stock } = req.body;
 
@@ -95,7 +97,7 @@ router.put('/products/:id', async (req,res) => {
     }
 })
 
-router.patch('/products/:id/stock', async (req,res) => {
+router.patch('/products/:id/stock', auth, async (req,res) => {
     const id = req.params.id;
     const { stock } = req.body;
 

@@ -1,39 +1,44 @@
-// Create a new Product -- Working
+// Create a new Product (Admin Only) -- Working
 POST http://localhost:5000/api/products HTTP/1.1
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q1YjgyYjNjNmUxNmIwMmEzYjY2OTciLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NDIwNTk1NjN9.UV2tB5gdMciLlOGRr4wTrQ-zY1LlsYwzG6ot-ad94_k
+// Not Admin x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q1YjhlMDNjNmUxNmIwMmEzYjY2OWIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzQyMDU5NzQ0fQ.iR64pHvaLIOa1GkJMbZSMROJJ7hh9nXYXgW4wynK4dk
 Content-Type: application/json
 
 {
-    "name": "Dummy Three",
-    "description": "wdym???",
+    "name": "Dummy Quatro",
+    "description": "Auth is fun",
     "image": "https://en.wikipedia.org/wiki/File:2024-08-25_Motorsport,_Formel_1,_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3973_by_Stepro_(headshot2).jpg",
-    "stock": 15
+    "stock": 200
 }
 
 ###
-// Retrieve All the Products -- Working
+// Retrieve All the Products (Anyone) -- Working
 GET http://localhost:5000/api/products HTTP/1.1
 
 ###
-// Delete a Single Product -- Working
-DELETE http://localhost:5000/api/products/67d2a4cd31328f66211c280d HTTP/1.1
+// Delete a Single Product (Admin Only) -- Working
+DELETE http://localhost:5000/api/products/67d2c7b515ec0f0ab7c751c5 HTTP/1.1
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2QzNDI5OTk1NzA5ODk5ODVjNmU2NjUiLCJpYXQiOjE3NDIwNTc1MzJ9.QYynpDLPI9_ZrL3NLUKww9wPyoFDRU1czpfFCD7S83s
 
 ###
-// Modify the Stock Count of a Single Product -- Working
-PATCH http://localhost:5000/api/products/67d2c7b515ec0f0ab7c751c5/stock HTTP/1.1
+// Modify the Stock Count of a Single Product (Authenticated Users) -- Working
+PATCH http://localhost:5000/api/products/67d5b956cd1d93202e397e6b/stock HTTP/1.1
 Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q1YjhlMDNjNmUxNmIwMmEzYjY2OWIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzQyMDU5NzQ0fQ.iR64pHvaLIOa1GkJMbZSMROJJ7hh9nXYXgW4wynK4dk
 
 {
-    "stock": 6
+    "stock": 250
 }
 
 ###
-// Update the whole of a Single Product -- working
-PUT http://localhost:5000/api/products/67d2a8065be04f6556068e27 HTTP/1.1
+// Update the whole of a Single Product (Admin Only) -- working
+PUT http://localhost:5000/api/products/67d2a4fc7b42a0b4cd7e7f27 HTTP/1.1
 Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2Q1YjhlMDNjNmUxNmIwMmEzYjY2OWIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzQyMDYwNjUyfQ._8ZDLFUQsa0xQhutcCxzktUFY2LSDLptjcuHX9eKgx8
 
 {
-    "name": "Dummy Two Fist",
-    "description": "ikr again",
+    "name": "Dummy One",
+    "description": "Priciest Dummies Ever Reloaded",
     "image": "https://en.wikipedia.org/wiki/File:2024-08-25_Motorsport,_Formel_1,_Gro%C3%9Fer_Preis_der_Niederlande_2024_STP_3973_by_Stepro_(headshot2).jpg",
-    "stock": 13
+    "stock": 130
 }
