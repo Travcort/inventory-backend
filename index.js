@@ -28,10 +28,6 @@ mongoose.connect(dbUrl)
 import { userRoutes } from './Auth/routes/users.js';
 app.use('/api/users', userRoutes);
 
-// Authorization
-import { authRoutes } from './Auth/routes/auth.js';
-app.use('/api/auth', authRoutes);
-
 // Products
 import { productRoutes } from './Products/product.routes.js';
 app.use('/api', productRoutes);

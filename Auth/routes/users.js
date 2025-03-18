@@ -2,13 +2,7 @@ import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import { User, validateUser } from '../models/user.js';
 import express from 'express';
-import { auth } from '../../middleware/auth.js';
 const router = express.Router();
-
-router.get('/me', auth, async (req, res) => {
-  const user = await User.findById(req.user._id).select('-password');
-  res.send(user);
-});
 
 router.post('/register', async (req, res) => {
   const { error } = validateUser(req.body);
@@ -22,9 +16,7 @@ router.post('/register', async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
 
   await user.save();
-
-  const token = user.generateAuthToken();
-  res.header('x-auth-token', token).send({ success: true, user: _.pick(user, ['name', 'email',]) });
+  res.send({ success: true, user: _.pick(user, ['name', 'email',]) });
 });
 
 export{ router as userRoutes } ;
