@@ -30,7 +30,7 @@ app.use('/api/users', userRoutes);
 
 // Products
 import { productRoutes } from './Products/product.routes.js';
-app.use('/api', productRoutes);
+app.use('/api/products', productRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server started on http://localhost:${PORT}`);
