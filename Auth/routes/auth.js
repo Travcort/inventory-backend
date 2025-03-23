@@ -2,7 +2,7 @@ import Joi from "joi";
 import bcrypt from "bcrypt";
 import express from "express";
 const router = express.Router();
-import { User } from "../models/user.js";
+import { User, validateUser } from '../../models/user.js';
 
 router.post('/', async (req, res) => {
   const {error}=validate(req.body);
