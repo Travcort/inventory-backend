@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
-import { User, validateUser } from '../models/user.js';
+import { User, validateUser } from '../../models/user.js';
 import express from 'express';
 const router = express.Router();
 
