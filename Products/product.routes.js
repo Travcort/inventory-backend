@@ -1,128 +1,58 @@
 import express from 'express';
-import mongoose from 'mongoose'
-import { Product } from "./product.schema.js";
+import { Product, validateProduct } from '../models/product.js';
 import { auth } from '../middleware/auth.js';
 import { admin } from '../middleware/admin.js';
 
 const router = express.Router();
 
-router.get('/products', async (req,res) => {
-    try {
-        const allProducts = await Product.find({});
-        if(!allProducts) return res.status(404).json({ success: false, message: 'The Inventory is empty!' });
-
-        return res.status(200).json({ success: true, products: allProducts });
-    } 
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: 'Internal Server Error!' });
+router.get('/', async (req, res) => {
+    const products = await Product.find();
+    if (!products || products.length === 0) {
+        return res.status(404).json({ success: false, message: 'The Inventory is empty!' });
     }
+    res.status(200).json({ success: true, products });
 });
 
-router.delete('/products/:id', auth, admin, async (req,res) => {
-    const id = req.params.id;
+router.post('/', [auth, admin], async (req, res) => {
+    const { error } = validateProduct(req.body);
+    if (error) return res.status(400).json({ success: false, message: error.details[0].message });
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ success: false, message: "Invalid Product ID" });
-    }
-
-    const productToDelete = await Product.findById(id);
-    if(!productToDelete) return res.status(404).json({ success: false, message: 'The Product does not exist!' });
-
-    try {
-        await Product.findByIdAndDelete(id);
-        return res.status(200).json({ success: true, message: 'Successfully deleted the Product' });
-    } 
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: 'Internal Server Error!' });
-    }
-
-})
-
-router.post('/products', auth, admin, async (req,res) => {
-    const { name, description, image, stock } = req.body;
-
-    if(!name || !description || !image || !stock) {
-        return res.status(400).json({ success: false, message: 'You have undefined properties in the body!' });
-    }
-
-    if (isNaN(stock)) return res.status(400).json({ success: false, message: 'Stock field should be a number' });
-
-    const newProduct = new Product({
-        name: name,
-        description: description,
-        image: image,
-        stock: stock
+    const product = new Product({
+        name: req.body.name,
+        description: req.body.description,
+        image: req.body.image,
+        stock: req.body.stock
     });
 
-    try {
-        const updated = await newProduct.save();
-        return res.status(201).json({ success: true, message: 'The Product has been created', products: updated });
-    } 
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: 'Internal Server Error!' });
-    }
+    await product.save();
+    res.status(201).json({ success: true, product });
 });
 
-router.put('/products/:id', auth, admin, async (req,res) => {
-    const id = req.params.id;
-    const { name, description, image, stock } = req.body;
+router.put('/:id', [auth, admin], async (req, res) => {
+    const { error } = validateProduct(req.body);
+    if (error) return res.status(400).json({ success: false, message: error.details[0].message });
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ success: false, message: "Invalid Product ID!" });
-    }
+    const product = await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+            name: req.body.name,
+            description: req.body.description,
+            image: req.body.image,
+            stock: req.body.stock
+        },
+        { new: true }
+    );
 
-    if(!name || !description || !image || !stock) {
-        return res.status(400).json({ success: false, message: 'You have undefined properties in the body!' });
-    }
+    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
-    if (isNaN(stock)) return res.status(400).json({ success: false, message: 'Stock field should be a number!' });
+    res.status(200).json({ success: true, product });
+});
 
-    const newProduct = {
-        name,
-        description,
-        image,
-        stock
-    };
+router.delete('/:id', [auth, admin], async (req, res) => {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
-    try {
-        const updated = await Product.findByIdAndUpdate(id, newProduct, { new: true });
-        return res.status(200).json({ success: true, message: 'The Product has been updated', products: updated });
-    } 
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: 'Internal Server Error!' });
-    }
-})
-
-router.patch('/products/:id/stock', auth, async (req,res) => {
-    const id = req.params.id;
-    const { stock } = req.body;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ success: false, message: "Invalid Product ID" });
-    }
-
-    if(stock === undefined) {
-        return res.status(400).json({ success: false, message: 'You have undefined stock in the body!' });
-    }
-    if (isNaN(stock)) return res.status(400).json({ success: false, message: 'Stock field should be a number' });
-
-    const existingProduct = await Product.findById(id);
-    if(!existingProduct) return res.status(404).json({ success: false, message: 'That product does not exist!' });
-
-    existingProduct.stock = stock;
-
-    try {
-        const updated = await existingProduct.save();
-        return res.status(200).json({ success: true, message: 'The Product Stock has been updated', products: updated });
-    } 
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ success: false, message: 'Internal Server Error!' });
-    }
+    res.status(200).json({ success: true, message: 'Product deleted' });
 });
 
 export { router as productRoutes };
