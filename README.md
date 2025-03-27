@@ -1,53 +1,32 @@
-# Inventory Backend
-## How to Run the Project Locally
+# Inventory Management System
 
-### Steps
-
-1. **Clone or Pull the Project**
-   - If you're not a contributor yet, clone the repository using:
-     ```bash
-     git clone <repository-url>
-     ```
-   - If you're a contributor, pull the latest changes:
-     ```bash
-     git pull origin main
-     ```
-
-2. **Install Dependencies**
-   - Open your terminal in the project's base directory and run:
-     ```bash
-     npm install
-     ```
-
-3. **Create the `.env` File**
-   - In the base directory, create a `.env` file.
-   - Copy and paste the required environment variables:
-    ```bash
-    PORT=5000
-    MONGO_LOCAL = mongodb://localhost:27017/inventory
-    MONGO_URL =  // To be implemented in Production
-
----
+This project is a full-stack inventory management system that allows users to manage products through a web interface. It includes a backend API built with Node.js, Express, and MongoDB, and a frontend dashboard built with HTML, CSS, and JavaScript. Users can log in, view a list of products, add new products, edit existing products, delete products, filter products by name, and log out.
 
 ## Project Structure
 
-```mermaid
-flowchart TB
-    root --> index.js[📄index.js]
-    root --> package.json[📄package.json]
-    root --> package-lock.json[📄package-lock.json]
-    root --> .env[📄.env]
-    root --> .gitignore[📄.gitignore]
-    root --> README.md[📄README.md]
-    root --> Products[📁Products]
-    Products --> product.routes.js[📄product.routes.js]
-    Products --> product.schema.js[📄product.schema.js]
-    Products --> requests.rest[📄requests.rest]
-    root --> Auth[📁Auth]
-    Auth --> models[📁 models]
-    models --> user.js[📄 user.js]
-    Auth --> routes[📁 routes]
-    routes --> auth.js[📄 auth.js]
-    routes --> users.js[📄 users.js]
-    Auth --> requests.rest[📄requests.rest]
-    root --> node_modules[📁 node_modules]
+The project is divided into two main directories:
+
+- `inventory-backend`: Contains the backend API (Node.js, Express, MongoDB).
+- `inventory-frontend`: Contains the frontend dashboard (HTML, CSS, JavaScript).
+
+## Features
+
+- User Authentication: Users can log in with their email and password. JWT tokens are used for authentication.
+-Product Management:
+  - View a list of products with details (name, description, image, stock).
+  - Add new products.
+  - Edit existing products.
+  - Delete products.
+  - Filter products by name.
+- Logout: Users can log out, clearing their session.
+-Responsive Design: The dashboard is styled for usability on both desktop and mobile devices.
+
+## Prerequisites
+
+Before running the project, ensure you have the following installed:
+
+- Node.js (v16 or higher): [Download Node.js](https://nodejs.org/)
+- MongoDB: Either a local MongoDB instance or a cloud instance (e.g., MongoDB Atlas). [Download MongoDB](https://www.mongodb.com/try/download/community)
+- http-server: A simple static file server for the frontend. Install globally with:
+  ```bash
+  npm install -g http-server
