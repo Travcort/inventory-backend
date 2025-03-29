@@ -32,10 +32,19 @@ Before running the project, ensure you have the following installed:
   npm install -g http-server
 ## if you have installed all the software, to run the project;
    - clone the repository:
+     ```bash
      git clone -b chris-test <repo URL e.g https://github.com/Travcort/inventory-backend.git>
    - in the inventory backend directory, run command:
+     ```bash
      npm install
+   - create a .env file in the backend directory and paste the code:
+     ```code
+      MONGO_LOCAL=mongodb://localhost:27017/inventory_db
+      JWT_SECRET=your_jwt_secret_key
+      PORT=5000
    - start the database as an admin:
+     ```bash
      net start MongoDB
    - in the backend directory, start the backend:
+     ```bash
      npm start
