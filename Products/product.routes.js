@@ -1,5 +1,5 @@
 import express from 'express';
-import { Product, validateProduct } from '../models/product.js';
+import { Product } from './product.schema.js';
 import { auth } from '../middleware/auth.js';
 import { admin } from '../middleware/admin.js';
 
@@ -14,38 +14,52 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', [auth, admin], async (req, res) => {
-    const { error } = validateProduct(req.body);
-    if (error) return res.status(400).json({ success: false, message: error.details[0].message });
+    // Manual validation for required fields
+    const { name, description, image, stock } = req.body;
+    if (!name || !description || !image || stock === undefined) {
+        return res.status(400).json({ success: false, message: 'All fields (name, description, image, stock) are required' });
+    }
 
-    const product = new Product({
-        name: req.body.name,
-        description: req.body.description,
-        image: req.body.image,
-        stock: req.body.stock
-    });
+    try {
+        const product = new Product({
+            name,
+            description,
+            image,
+            stock
+        });
 
-    await product.save();
-    res.status(201).json({ success: true, product });
+        await product.save();
+        res.status(201).json({ success: true, product });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+    }
 });
 
 router.put('/:id', [auth, admin], async (req, res) => {
-    const { error } = validateProduct(req.body);
-    if (error) return res.status(400).json({ success: false, message: error.details[0].message });
+    // Manual validation for required fields
+    const { name, description, image, stock } = req.body;
+    if (!name || !description || !image || stock === undefined) {
+        return res.status(400).json({ success: false, message: 'All fields (name, description, image, stock) are required' });
+    }
 
-    const product = await Product.findByIdAndUpdate(
-        req.params.id,
-        {
-            name: req.body.name,
-            description: req.body.description,
-            image: req.body.image,
-            stock: req.body.stock
-        },
-        { new: true }
-    );
+    try {
+        const product = await Product.findByIdAndUpdate(
+            req.params.id,
+            {
+                name,
+                description,
+                image,
+                stock
+            },
+            { new: true }
+        );
 
-    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+        if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
-    res.status(200).json({ success: true, product });
+        res.status(200).json({ success: true, product });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+    }
 });
 
 router.delete('/:id', [auth, admin], async (req, res) => {
