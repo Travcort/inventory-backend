@@ -30,3 +30,12 @@ Before running the project, ensure you have the following installed:
 - http-server: A simple static file server for the frontend. Install globally with:
   ```bash
   npm install -g http-server
+## if you have installed all the software, to run the project;
+   - clone the repository:
+     git clone -b chris-test <repo URL e.g https://github.com/Travcort/inventory-backend.git>
+   - in the inventory backend directory, run command:
+     npm install
+   - start the database as an admin:
+     net start MongoDB
+   - in the backend directory, start the backend:
+     npm start
